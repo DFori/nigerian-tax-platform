@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaxNigeria — Statutory Tax Calculation & Compliance Platform</title>
+  <meta name="description" content="Official statutory tax calculations, PAYE estimator, SME CITA thresholds, VAT/WHT rates, and compliance calendar based on PITA and Finance Acts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Background Glow -->
+  <div class="glow-orb orb-emerald"></div>
+  <div class="glow-orb orb-amber"></div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="brand-meta">
+          <span class="brand-name">TAXNIGERIA</span>
+          <span class="brand-tag">STATUTORY COMPLIANCE & CALCULATION OS</span>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <div class="statutory-badge">
+          <span class="pulse-indicator"></span>
+          <span>Governed by PITA 2011 & Finance Acts 2019–2023</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dashboard-container">
+    <!-- Statutory Disclaimer Banner -->
+    <div class="disclaimer-banner glass-card">
+      <div class="disclaimer-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="disclaimer-content">
+        <strong>Statutory Notice & Educational Purpose:</strong>
+        All computations are deterministic and strictly derived from gazetted Nigerian tax statutes (Personal Income Tax Act, Companies Income Tax Act, Value Added Tax Act). This platform is an educational compliance aid and does not substitute for an official Tax Clearance Certificate (TCC) issued by FIRS or State Internal Revenue Services.
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" data-tab="tab-pita">PAYE & Personal Income Tax (PITA)</button>
+      <button class="tab-btn" data-tab="tab-cita">SME & Corporate Income Tax (CITA)</button>
+      <button class="tab-btn" data-tab="tab-vat-wht">VAT & Withholding Tax (WHT)</button>
+      <button class="tab-btn" data-tab="tab-calendar">Filing Calendar & Penalties</button>
+      <button class="tab-btn" data-tab="tab-statutes">Statutory Rules Library</button>
+    </div>
+
+    <!-- TAB 1: PAYE / PITA Calculator -->
+    <section id="tab-pita" class="tab-content active">
+      <div class="dashboard-grid">
+        <!-- Input Form -->
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h3>Personal Income Tax (PAYE) Estimator</h3>
+              <span class="panel-subtitle">Section 33 PITA: Higher of ₦200,000 or 1% Gross + 20% Gross CRA</span>
+            </div>
+          </div>
+
+          <form id="form-pita" class="tax-form">
+            <div class="form-group">
+              <label for="pita-gross">Gross Annual Income (₦ / Naira)</label>
+              <input type="number" id="pita-gross" value="4800000" min="0" step="10000" required>
+            </div>
+
+            <div class="form-row-grid">
+              <div class="form-group">
+                <label for="pita-pension">Annual Pension Contribution (₦)</label>
+                <input type="number" id="pita-pension" placeholder="Auto 8% if empty" min="0" step="1000">
+                <span class="input-hint">Default: 8% under PRA 2014</span>
+              </div>
+              <div class="form-group">
+                <label for="pita-nhf">National Housing Fund / NHF (₦)</label>
+                <input type="number" id="pita-nhf" placeholder="Auto 2.5% if empty" min="0" step="500">
+                <span class="input-hint">Default: 2.5% of Basic Salary</span>
+              </div>
+            </div>
+
+            <div class="form-row-grid">
+              <div class="form-group">
+                <label for="pita-nhis">NHIS Health Insurance (₦)</label>
+                <input type="number" id="pita-nhis" value="0" min="0" step="500">
+              </div>
+              <div class="form-group">
+                <label for="pita-life">Life Assurance Premium (₦)</label>
+                <input type="number" id="pita-life" value="0" min="0" step="500">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                Compute Statutory PAYE & Take-Home
+              </button>
+            </div>
+          </form>
+
+          <!-- Payslip & Breakdown -->
+          <div class="payslip-box" id="pita-payslip">
+            <div class="payslip-header">
+              <h4>Estimated Monthly Take-Home & PAYE</h4>
+              <span class="badge badge-emerald" id="pita-effective-rate">0% Effective Rate</span>
+            </div>
+
+            <div class="kpi-metric-row">
+              <div class="kpi-mini">
+                <span class="kpi-label">Monthly Gross</span>
+                <span class="kpi-val text-cyan" id="val-monthly-gross">₦400,000</span>
+              </div>
+              <div class="kpi-mini">
+                <span class="kpi-label">Monthly PAYE Tax</span>
+                <span class="kpi-val text-amber" id="val-monthly-tax">₦42,000</span>
+              </div>
+              <div class="kpi-mini">
+                <span class="kpi-label">Net Monthly Take-Home</span>
+                <span class="kpi-val text-emerald" id="val-monthly-takehome">₦326,000</span>
+              </div>
+            </div>
+
+            <!-- Mathematical Step-by-Step Breakdown -->
+            <div class="calc-steps-card">
+              <h5>Statutory Calculation Audit Trail</h5>
+              <div class="step-row">
+                <span>1. Consolidated Relief Allowance (CRA):</span>
+                <strong id="step-cra">₦1,160,000</strong>
+              </div>
+              <div class="step-row">
+                <span>2. Total Non-Taxable Reliefs (CRA + Pension + NHF):</span>
+                <strong id="step-total-reliefs">₦1,604,000</strong>
+              </div>
+              <div class="step-row">
+                <span>3. Chargeable / Taxable Income:</span>
+                <strong id="step-taxable-income" class="text-cyan">₦3,196,000</strong>
+              </div>
+              <div class="step-row">
+                <span>4. Annual PAYE Tax Payable:</span>
+                <strong id="step-annual-tax" class="text-amber">₦504,000</strong>
+              </div>
+            </div>
+
+            <!-- Graduated Brackets Table -->
+            <div class="table-container" style="margin-top: 1rem;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Graduated Tax Bracket</th>
+                    <th>Taxable Amount</th>
+                    <th>Rate</th>
+                    <th class="text-right">Tax Payable</th>
+                  </tr>
+                </thead>
+                <tbody id="pita-brackets-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: CITA & SME Corporate Tax -->
+    <section id="tab-cita" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h3>Companies Income Tax (CITA) & SME Exemption Engine</h3>
+              <span class="panel-subtitle">Finance Act 2020: 0% CIT for turnover &lt; ₦25M; 20% for ₦25M–₦100M; 30% for &gt; ₦100M</span>
+            </div>
+          </div>
+
+          <form id="form-cita" class="tax-form">
+            <div class="form-row-grid">
+              <div class="form-group">
+                <label for="cita-turnover">Annual Gross Turnover / Revenue (₦)</label>
+                <input type="number" id="cita-turnover" value="18000000" min="0" step="500000" required>
+              </div>
+              <div class="form-group">
+                <label for="cita-profit">Assessable Taxable Profit (₦)</label>
+                <input type="number" id="cita-profit" value="4500000" min="0" step="100000" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Evaluate Corporate Tax Liability
+            </button>
+          </form>
+
+          <div class="cita-result-card" id="cita-result-box">
+            <div class="result-tier-badge">
+              <span class="badge badge-emerald" id="cita-tier-badge">Small Company (0% CIT Exemption)</span>
+            </div>
+            <div class="kpi-metric-row">
+              <div class="kpi-mini">
+                <span class="kpi-label">CIT Rate</span>
+                <span class="kpi-val" id="cita-rate-val">0%</span>
+              </div>
+              <div class="kpi-mini">
+                <span class="kpi-label">Companies Income Tax (CIT)</span>
+                <span class="kpi-val text-emerald" id="cita-tax-val">₦0</span>
+              </div>
+              <div class="kpi-mini">
+                <span class="kpi-label">Tertiary Education Tax (3% TET)</span>
+                <span class="kpi-val text-cyan" id="cita-tet-val">₦0</span>
+              </div>
+              <div class="kpi-mini">
+                <span class="kpi-label">Total Corporate Tax</span>
+                <span class="kpi-val text-amber" id="cita-total-val">₦0</span>
+              </div>
+            </div>
+
+            <div class="calc-steps-card" id="cita-notes-list" style="margin-top: 1rem;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: VAT & Withholding Tax (WHT) -->
+    <section id="tab-vat-wht" class="tab-content">
+      <div class="side-by-side-grid">
+        <!-- VAT Panel -->
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h3>Value Added Tax (VAT 7.5%)</h3>
+              <span class="panel-subtitle">Section 34 Finance Act 2020</span>
+            </div>
+          </div>
+
+          <form id="form-vat" class="tax-form">
+            <div class="form-group">
+              <label for="vat-amount">Transaction / Invoice Amount (₦)</label>
+              <input type="number" id="vat-amount" value="500000" min="0" step="5000" required>
+            </div>
+            <div class="form-group">
+              <label for="vat-category">Item Category / Type</label>
+              <select id="vat-category" class="custom-select">
+                <option value="STANDARD_GOODS">Standard Commercial Goods & Equipment</option>
+                <option value="BASIC_FOOD_ITEMS">Basic Food Items (Bread, Fish, Milk, Cereals) [EXEMPT]</option>
+                <option value="MEDICAL_PHARMACEUTICAL">Medical & Pharmaceutical Products [EXEMPT]</option>
+                <option value="EDUCATIONAL_BOOKS_MATERIALS">Educational Books & Materials [EXEMPT]</option>
+                <option value="BABY_PRODUCTS">Baby Products [EXEMPT]</option>
+                <option value="EXPORTS">Exported Goods & Services [ZERO-RATED]</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Calculate VAT
+            </button>
+          </form>
+
+          <div class="payslip-box" id="vat-results-box" style="margin-top: 1rem;">
+            <div class="step-row">
+              <span>VAT Status:</span>
+              <strong id="vat-status-badge" class="badge badge-emerald">Standard 7.5% Taxable</strong>
+            </div>
+            <div class="step-row">
+              <span>VAT Amount:</span>
+              <strong id="vat-amount-val" class="text-amber">₦37,500</strong>
+            </div>
+            <div class="step-row">
+              <span>Total Invoice Amount (Gross + VAT):</span>
+              <strong id="vat-total-val" class="text-cyan">₦537,500</strong>
+            </div>
+            <div id="vat-exemption-note" class="text-muted text-sm" style="margin-top: 0.5rem;"></div>
+          </div>
+        </div>
+
+        <!-- WHT Panel -->
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h3>Withholding Tax (WHT)</h3>
+              <span class="panel-subtitle">Advance tax deduction at source</span>
+            </div>
+          </div>
+
+          <form id="form-wht" class="tax-form">
+            <div class="form-group">
+              <label for="wht-amount">Contract / Invoice Amount (₦)</label>
+              <input type="number" id="wht-amount" value="1500000" min="0" step="10000" required>
+            </div>
+            <div class="form-group">
+              <label for="wht-beneficiary">Beneficiary Entity Type</label>
+              <select id="wht-beneficiary" class="custom-select">
+                <option value="INDIVIDUAL">Individual / Sole Proprietor (State IRS)</option>
+                <option value="CORPORATE">Corporate Company (Federal FIRS)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="wht-service">Service / Transaction Category</label>
+              <select id="wht-service" class="custom-select">
+                <option value="PROFESSIONAL_CONSULTANCY">Professional & Consultancy Services (5% Ind / 10% Corp)</option>
+                <option value="CONSTRUCTION_CONTRACTS">Construction & Technical Contracts (5%)</option>
+                <option value="DIVIDEND_INTEREST_RENT">Dividends, Interest & Rent (10%)</option>
+                <option value="ROYALTIES">Royalties (10%)</option>
+                <option value="DIRECTORS_FEES">Directors' Fees (10%)</option>
+                <option value="AGENCY_COMMISSION">Agency & Brokerage Commissions (5% Ind / 10% Corp)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Calculate Withholding Tax
+            </button>
+          </form>
+
+          <div class="payslip-box" id="wht-results-box" style="margin-top: 1rem;">
+            <div class="step-row">
+              <span>WHT Rate:</span>
+              <strong id="wht-rate-val" class="badge badge-indigo">5%</strong>
+            </div>
+            <div class="step-row">
+              <span>WHT Deducted at Source:</span>
+              <strong id="wht-deduction-val" class="text-amber">₦75,000</strong>
+            </div>
+            <div class="step-row">
+              <span>Net Paid to Vendor:</span>
+              <strong id="wht-net-val" class="text-emerald">₦1,425,000</strong>
+            </div>
+            <div class="step-row">
+              <span>Remittance Agency:</span>
+              <strong id="wht-agency-val" class="text-cyan">State Internal Revenue Service (SIRS)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Filing Calendar & Penalties -->
+    <section id="tab-calendar" class="tab-content">
+      <div class="glass-card panel">
+        <div class="panel-header">
+          <div>
+            <h3>Statutory Nigerian Tax Filing Calendar & Deadlines</h3>
+            <span class="panel-subtitle">Statutory due dates, countdowns, and default penalty provisions</span>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tax Obligation</th>
+                <th>Jurisdiction</th>
+                <th>Frequency</th>
+                <th>Statutory Due Date</th>
+                <th>Days Remaining</th>
+                <th>Penalties for Default</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-table-body">
+              <tr><td colspan="6" class="empty-state">Loading statutory filing calendar...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Statutory Rules Library -->
+    <section id="tab-statutes" class="tab-content">
+      <div class="glass-card panel">
+        <div class="panel-header">
+          <div>
+            <h3>Verifiable Statutory Tax Rules & Citations Library</h3>
+            <span class="panel-subtitle">Authoritative Acts of the National Assembly and Gazette references</span>
+          </div>
+        </div>
+
+        <div class="rules-grid" id="rules-library-container">
+          <div class="empty-state">Loading statutory rules...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

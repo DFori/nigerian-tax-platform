@@ -1,0 +1,24 @@
+{
+  "name": "nigerian-tax-platform",
+  "version": "1.0.0",
+  "description": "Statutory Nigerian tax calculation, compliance, and educational platform with date-effective versioned rules",
+  "main": "dist/server/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server/server.js",
+    "dev": "tsx src/server/server.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.7"
+  }
+}
